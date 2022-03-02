@@ -1,0 +1,107 @@
+.logo {
+    margin: 5px 0;
+    width: 170px;
+    height: 100%;
+}
+
+.round-logo {
+    margin: 5px 0;
+    width: 70px;
+    height: 100%;
+}
+
+.toggle-side {
+    position: absolute;
+    background-color: #69c5c2;
+    top: 0;
+    left: 100%;
+}
+
+.toggle-side-sm {
+    background-color: #69c5c2;
+    width: 100px;
+}
+
+.toggle-side:hover {
+    background-color: #85ddda;
+}
+
+.toggle-side:focus,
+.toggle-side:active {
+    background-color: #9df5f2;
+}
+
+.toggle-icon {
+    width: 20px;
+    height: 20px
+}
+
+.sidebar {
+    min-height: 100vh;  
+    box-shadow: 3px 0 8px rgb(161, 161, 161);
+    transition: width 0.5s ease;
+}
+
+.sidebar-sm {
+    overflow: hidden;
+    min-height: 100%;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+.retract {
+    width: 100%;
+}
+
+.sidebar .nav-item,
+.sidebar-sm .nav-item {
+    margin: 5px 0;
+    position: relative;    
+    border-radius: 10px;
+    box-shadow: none;
+    height: 70px;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    color: white;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: transparent;
+    transition: .3s ease-in-out;
+}
+
+.sidebar-sm .nav-item {
+    justify-content: center;
+}
+
+.sidebar .nav-item:focus,
+.sidebar-sm .nav-item:focus {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.sidebar .nav-item:hover,
+.sidebar-sm .nav-item:hover {
+    background-color: #69c5c2;
+}
+
+.sidebar .nav-item:active,
+.sidebar-sm .nav-item:active {
+    box-shadow: none;
+    background-color: #43d6d1;
+    background-position: left;
+    transition: none;
+}
+
+.side-icon {
+    margin-left: 1rem;
+    min-width: 40px;
+    min-height: 40px;
+}

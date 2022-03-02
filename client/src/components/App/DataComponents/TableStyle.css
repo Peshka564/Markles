@@ -1,0 +1,20 @@
+th {
+    border-radius: 5px;
+}
+
+tr{
+    border-color: white;
+    border-style: hidden;
+}
+
+.dropdown-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-toggle-text {
+    margin: 0;
+    display: inline-block;
+}

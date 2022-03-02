@@ -1,0 +1,42 @@
+//custom var
+$primary:                   #63a1d6;
+$secondary:                 #14E5FA;
+$dark:                      #666161;
+
+$font-weight-lighter:         200;
+$font-weight-light:           300;
+$font-weight-normal:          500;
+$font-weight-semi-bold:       600;
+$font-weight-bold:            700;
+$font-weight-bolder:          900;
+
+$border-radius:               0.75rem;
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+// Create your own map
+$custom-colors: (
+    "complement": #FB8153,
+    "semi-dark": #3A9D9A,
+    "accent": #f8f8f8
+);
+
+// Merge the maps
+$theme-colors: map-merge($custom-colors, $theme-colors);
+
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+$utilities-colors: map-merge(
+  $theme-colors-rgb,
+  (
+    "black": to-rgb($black),
+    "white": to-rgb($white),
+    "body":  to-rgb($body-color)
+  )
+);
+
+$utilities-text-colors: map-loop($utilities-colors, rgba-css-var, "$key", "text");
+$utilities-bg-colors: map-loop($utilities-colors, rgba-css-var, "$key", "bg");
+
+//import bootstrap
+@import '../node_modules/bootstrap/scss/bootstrap';

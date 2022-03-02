@@ -1,0 +1,39 @@
+.hero-navbar {
+    height: 300px;
+    width: 100%;
+    background-color: #63a1d6;
+    text-align: center;
+    overflow: hidden;
+}
+
+.logo-landing {
+    width: 150px;
+    display: inline-block;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.hero-img {
+    width: 15%;
+    height: 80%;
+    margin-right: 2rem;
+    margin-left: 5rem;
+}
+
+.text-div {
+    text-align: left;
+}
+
+.hero-login {
+    width: 50%;
+}
+
+.main-landing {
+    margin: 0;
+    width: 100%;
+    background-image: url(../images/bg.png);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}   
