@@ -51,9 +51,9 @@ if(process.env.NODE_ENV === 'production') {
 
 //app server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`));
+//app.listen(PORT, console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`));
 
-const server = createServer();
+const server = createServer(app);
 const io = new Server(server);
 
 io.on('connection', (socket) => {
@@ -65,6 +65,6 @@ io.on('connection', (socket) => {
 
 //socket server
 const SOCKET_PORT = process.env.SOCKET_PORT || 8000;
-server.listen(SOCKET_PORT, () => console.log(`Socket server listening on port ${SOCKET_PORT}`));
+server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 //sampleData();
 export default io;
