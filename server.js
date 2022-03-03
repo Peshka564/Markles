@@ -26,9 +26,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(cors({
-    origin: 'http://localhost:3000'
-}));
+if(process.env.NODE_ENV === 'development') {
+    app.use(cors({
+        origin: 'http://localhost:3000'
+    }));
+}
 
 // JSON Parser Middleware
 app.use(express.urlencoded({ extended: false }));
@@ -54,7 +56,7 @@ app.listen(PORT, console.log(`Server is running on port ${PORT} in ${process.env
 const server = createServer();
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000'
+        origin: 'http://localhost:5000'
     }
 });
 
