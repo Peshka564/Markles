@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: 'https://markles.herokuapp.com:3000'
+    origin: 'http://localhost:3000'
 }));
 
 // JSON Parser Middleware
@@ -54,7 +54,7 @@ app.listen(PORT, console.log(`Server is running on port ${PORT} in ${process.env
 const server = createServer();
 const io = new Server(server, {
     cors: {
-        origin: 'https://markles.herokuapp.com:3000'
+        origin: 'http://localhost:3000'
     }
 });
 
