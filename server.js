@@ -49,11 +49,20 @@ if(process.env.NODE_ENV === 'production') {
     app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, './', 'client', 'build', 'index.html')))
 }
 
+const io = new Server(app);
+
+io.on('connection', (socket) => {
+    console.log('Connection!!')
+    socket.on('joinRoom', data => {
+        socket.join(data);
+    });
+});
+
 //app server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`));
 
-const server = createServer();
+/*const server = createServer();
 const io = new Server(server);
 
 io.on('connection', (socket) => {
@@ -65,6 +74,6 @@ io.on('connection', (socket) => {
 
 //socket server
 const SOCKET_PORT = process.env.SOCKET_PORT || 8000;
-server.listen(SOCKET_PORT, () => console.log(`Socket server listening on port ${SOCKET_PORT}`));
+server.listen(SOCKET_PORT, () => console.log(`Socket server listening on port ${SOCKET_PORT}`));*/
 //sampleData();
 export default io;
