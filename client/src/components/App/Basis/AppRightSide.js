@@ -8,7 +8,9 @@ const AppRightSide = ({setRetract}) => {
       <div className="d-flex flex-column w-100">
         <AppMainbar setRetract={setRetract}/>
         <div className='navline mt-2 mb-4 mx-auto'></div>
+        <div className='m-0 p-0'>
           <AppMain />
+        </div>
       </div>
   );
 };
