@@ -21,11 +21,6 @@ html, body {
     top: -60%;
 }
 
-table {
-    table-layout:fixed;
-    width: 100%;
-}
-
 .btn {
     border: none;
 }

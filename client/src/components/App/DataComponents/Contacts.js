@@ -17,6 +17,7 @@ const Contacts = () => {
 
   return(
       <>
+        <h2>Contacts</h2>
         {auth.isAuthenticated && 
           <div className='d-flex flex-row justify-content-end'>
             <ImportContacts />

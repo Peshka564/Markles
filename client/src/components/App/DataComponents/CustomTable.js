@@ -3,7 +3,8 @@ import {AuthContext} from '../../../context/AuthContext.js';
 import {
   Table,
   Dropdown,
-  Button
+  Button,
+  Card
 } from 'react-bootstrap';
 import {
   FaAngleRight,
@@ -11,6 +12,7 @@ import {
   FaUserSlash
 } from 'react-icons/fa';
 import './TableStyle.css';
+import { useMediaQuery } from 'react-responsive';
 
 const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
   const limit = 20;
@@ -18,12 +20,59 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
   const {auth} = useContext(AuthContext);
   const [page, setPage] = useState(1);
 
+  const isMedium = useMediaQuery({ query: '(min-width: 768px)' });
+
   useEffect(() => {
     if(auth.isAuthenticated) getAction()
   }, [auth.isAuthenticated])
 
   return (
     <>
+      {!isMedium ? 
+        fields[2] === 'Role' ? 
+        data.map((element, i) => {
+          if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
+            return <Card>
+              <Card.Heading>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
+              {element._id !== auth.user._id && auth.user.role === 'Admin' && element.role !== 'Admin' && <FaUserSlash className='delete-icon' onClick={() => deleteAction({id: element._id})} />}
+              </Card.Heading>
+              <Card.Body>
+                <h4>{`${fields[1]}: ${element.email}`}</h4>
+                <h4>{`${fields[2]}: ${element.role}`}</h4>
+              </Card.Body>
+            </Card>
+          }
+        }) : fields[0] === 'Name' ?
+        data.map((element, i) => {
+          if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
+            return <Card>
+              <Card.Heading>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
+              {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon' onClick={() => deleteAction({id: element._id})}/>}
+              </Card.Heading>
+              <Card.Body>
+                <h4>{`${fields[1]}: ${element.email}`}</h4>
+                <h4>{`${fields[2]}: ${element.companyFrom}`}</h4>
+                <h4>{`${fields[3]}: ${element.phone}`}</h4>
+                <h4>{`${fields[4]}: ${element.owner.name}`}</h4>
+              </Card.Body>
+            </Card>
+          }
+        }) : 
+        data.map((element, i) => {
+          if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
+            return <Card>
+              <Card.Heading>{`${fields[0]}: ${element.item}`}
+              {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon' onClick={() => deleteAction({id: element._id})}/>}  
+              </Card.Heading>
+              <Card.Body>
+                <h4>{`${fields[1]}: ${element.amount}`}</h4>
+                <h4>{`${fields[2]}: ${element.partner}`}</h4>
+                <h4>{`${fields[3]}: ${element.owner.name}`}</h4>
+              </Card.Body>
+            </Card>
+          }
+        })
+      :
       <Table striped bordered hover>
         <thead className="bg-dark text-white">
           <tr>
@@ -92,7 +141,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
             }
           })}
         </tbody>
-      </Table>
+      </Table>}
       {maxPages > 1 &&
       <div className='mx-auto'>
         <Button variant="primary" className="text-white shadow-none me-3" type="submit" onClick={() => page > 1 && setPage(page-1)}><FaAngleLeft style={{width: '20px'}}/></Button>

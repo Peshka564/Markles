@@ -16,6 +16,7 @@ const Company = () => {
 
   return(
       <>
+        <h2>My Company</h2>
         {auth.isAuthenticated && auth.user.role === 'Admin' && <AddUser />}
         <CustomTable data={users.users} getAction={getUsersAction} sortAction={sortUsersAction} deleteAction={deleteUserAction} fields={fieldArray}/>
       </>

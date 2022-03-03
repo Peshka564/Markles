@@ -16,6 +16,7 @@ const Deals = () => {
 
   return(
       <>
+        <h2>Deals</h2>
         {auth.isAuthenticated &&
           <div className='d-flex flex-row justify-content-end'>
             <AddDeal />

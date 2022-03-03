@@ -53,7 +53,6 @@ const server = createServer(app);
 const io = new Server(server);
 
 io.on('connection', (socket) => {
-    console.log('Connection!!')
     socket.on('joinRoom', data => {
         socket.join(data);
     });
