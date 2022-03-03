@@ -11,8 +11,7 @@ const AppMain = () => {
   useEffect(() => {
     if(auth.isAuthenticated) {
       //connect socket
-      console.log(window.location)
-      const socket = io('https:.arkles.herokuapp.com:8000/');
+      const socket = io('https://markles.herokuapp.com:8000/');
       socket.emit('joinRoom', auth.user.company.id);
       //
       socket.on('newContact', (contact) => {
