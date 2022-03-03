@@ -65,6 +65,7 @@ io.on('connection', (socket) => {
 });
 
 //socket server
-server.listen(process.env.SOCKET_PORT, () => console.log(`Socket server listening on port ${process.env.SOCKET_PORT}`));
+const SOCKET_PORT = process.env.SOCKET_PORT || 8000;
+server.listen(SOCKET_PORT, () => console.log(`Socket server listening on port ${SOCKET_PORT}`));
 //sampleData();
 export default io;
