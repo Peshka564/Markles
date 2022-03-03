@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { Row, Col, Container, Dropdown, Button } from 'react-bootstrap';
+import { Row, Col, Container, Dropdown } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
 import { Pie } from 'react-chartjs-2';
 

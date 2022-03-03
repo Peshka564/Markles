@@ -32,7 +32,7 @@ const CombinedAuth = () => {
         if(res != null) setErrorMsg(res)
         else {
             setErrorMsg(null);
-            navigate('/app');
+            navigate('/app/contacts');
         }
     }
 

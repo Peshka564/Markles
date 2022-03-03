@@ -33,9 +33,9 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
         data.map((element, i) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
             return <Card>
-              <Card.Heading>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
+              <Card.Header>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
               {element._id !== auth.user._id && auth.user.role === 'Admin' && element.role !== 'Admin' && <FaUserSlash className='delete-icon' onClick={() => deleteAction({id: element._id})} />}
-              </Card.Heading>
+              </Card.Header>
               <Card.Body>
                 <h4>{`${fields[1]}: ${element.email}`}</h4>
                 <h4>{`${fields[2]}: ${element.role}`}</h4>
@@ -46,9 +46,9 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
         data.map((element, i) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
             return <Card>
-              <Card.Heading>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
+              <Card.Header>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon' onClick={() => deleteAction({id: element._id})}/>}
-              </Card.Heading>
+              </Card.Header>
               <Card.Body>
                 <h4>{`${fields[1]}: ${element.email}`}</h4>
                 <h4>{`${fields[2]}: ${element.companyFrom}`}</h4>
@@ -61,9 +61,9 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
         data.map((element, i) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
             return <Card>
-              <Card.Heading>{`${fields[0]}: ${element.item}`}
+              <Card.Header>{`${fields[0]}: ${element.item}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon' onClick={() => deleteAction({id: element._id})}/>}  
-              </Card.Heading>
+              </Card.Header>
               <Card.Body>
                 <h4>{`${fields[1]}: ${element.amount}`}</h4>
                 <h4>{`${fields[2]}: ${element.partner}`}</h4>
