@@ -14,7 +14,7 @@ export const sampleData = async () => {
         id: mongoose.Types.ObjectId('621e2a005a940e7e1c00d5e1'),
         name: 'TestCompany'
     }
-    const users = await User.find({'company.id': company.id});
+    /*const users = await User.find({'company.id': company.id});
     const contacts = await Contact.find({'company.id': company.id});
     const items = 
     ['Computers', 
@@ -35,10 +35,10 @@ export const sampleData = async () => {
     'Sock'
     ];
 
-    for(let i = 0; i < 1000; i++) {
+    for(let i = 0; i < 1500; i++) {
         const contactId = Math.floor(Math.random() * contacts.length);
         const userId = Math.floor(Math.random() * users.length);
-        const date = new Date(new Date(2021, 10, 1).getTime() + Math.random() * (new Date().getTime() - new Date(2021, 10, 1).getTime()));
+        const date = new Date(new Date(2021, 1, 1).getTime() + Math.random() * (new Date().getTime() - new Date(2021, 1, 1).getTime()));
         const deal = new Deal({
             item: items[Math.floor(Math.random() * items.length)],
             amount: Math.floor(Math.random() * 50000),
@@ -52,7 +52,7 @@ export const sampleData = async () => {
         })
         await deal.save();      
     }
-
+    console.log('done')*/
 
     /*const interval = Math.floor(Math.random() * 10 * 1000);
     const contactId = Math.floor(Math.random() * contacts.length);

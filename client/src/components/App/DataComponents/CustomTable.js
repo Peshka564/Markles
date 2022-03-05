@@ -32,7 +32,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
         fields[2] === 'Role' ? 
         data.map((element, i) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
-            return <Card>
+            return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
               {element._id !== auth.user._id && auth.user.role === 'Admin' && element.role !== 'Admin' && <FaUserSlash className='delete-icon ms-auto' onClick={() => deleteAction({id: element._id})} />}
               </h3>
@@ -46,7 +46,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
         }) : fields[0] === 'Name' ?
         data.map((element, i) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
-            return <Card>
+            return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => deleteAction({id: element._id})}/>}
               </h3>
@@ -62,7 +62,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
         }) : 
         data.map((element, i) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
-            return <Card>
+            return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.item}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => deleteAction({id: element._id})}/>}  
               </h3>

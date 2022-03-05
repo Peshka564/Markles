@@ -50,7 +50,15 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 const server = createServer(app);
-const io = new Server(server);
+
+let io;
+if(process.env.NODE_ENV === 'development') {
+    io = new Server(server, {
+        cors: '*'
+    });
+} else {
+    io = new Server(server)
+}
 
 io.on('connection', (socket) => {
     socket.on('joinRoom', data => {
