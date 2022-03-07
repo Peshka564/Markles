@@ -9,6 +9,7 @@ import contacts from './api/contacts.js';
 import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+import tf from '@tensorflow/tfjs';
 import { sampleData } from './sampleData.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -42,6 +43,10 @@ app.use('/api/auth', auth);
 app.use('/api/users', users);
 app.use('/api/contacts', contacts);
 app.use('/api/deals', deals);
+
+const model = tf.loadLayersModel('https://markles.herokuapp.com/exportedModel/model.json')
+console.log('Model loaded')
+
 
 // Serve frontend
 if(process.env.NODE_ENV === 'production') {
