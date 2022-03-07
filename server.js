@@ -44,7 +44,7 @@ app.use('/api/users', users);
 app.use('/api/contacts', contacts);
 app.use('/api/deals', deals);
 
-const model = tf.loadLayersModel('https://markles.herokuapp.com/exportedModel/model.json')
+const model = await tf.loadLayersModel('https://markles.herokuapp.com/exportedModel/model.json')
 console.log('Model loaded')
 
 
