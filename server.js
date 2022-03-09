@@ -9,7 +9,6 @@ import contacts from './api/contacts.js';
 import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
-import tf from '@tensorflow/tfjs';
 import { sampleData } from './sampleData.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -44,10 +43,6 @@ app.use('/api/users', users);
 app.use('/api/contacts', contacts);
 app.use('/api/deals', deals);
 
-const model = await tf.loadLayersModel('https://markles.herokuapp.com/exportedModel/model.json')
-console.log('Model loaded')
-
-
 // Serve frontend
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, './client/build')));
@@ -73,5 +68,5 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server listening on port ${PORT} in ${process.env.NODE_ENV}`));
-//sampleData();
+sampleData();
 export default io;

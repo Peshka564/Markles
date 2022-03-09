@@ -41,7 +41,7 @@ export const sampleData = async () => {
         const date = new Date(new Date(2021, 1, 1).getTime() + Math.random() * (new Date().getTime() - new Date(2021, 1, 1).getTime()));
         const deal = new Deal({
             item: items[Math.floor(Math.random() * items.length)],
-            amount: Math.floor(Math.random() * 50000),
+            amount: Math.floor(Math.random() * 400),
             partner: contacts[contactId].firstName + ' ' + contacts[contactId].lastName,
             company,
             owner: {

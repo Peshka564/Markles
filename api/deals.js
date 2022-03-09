@@ -1,7 +1,7 @@
 import express from 'express';
 import Deal from '../database/models/Deal.js';
 import { auth } from '../middleware/auth.js';
-import mongoose from 'mongoose';
+import { spawn } from 'child_process';
 
 const router = express.Router();
 
@@ -46,6 +46,19 @@ router.post('/add', auth, async (req, res) => {
 router.delete('/delete/:id', auth, async (req, res) => {
     await Deal.findOneAndDelete({_id: req.params.id});
     res.sendStatus(200);
+})
+
+router.post('/predict', auth, (req, res) => {
+    const jsonData = JSON.stringify({data: req.body})
+    const py = spawn('python', ['../ml/predict.py', jsonData])
+    let result;
+    py.stdout.on('data', function (stdData) {
+        result = stdData.toString();
+    });
+        
+    py.stdout.on('end', function () {
+        res.json(result['prediction'])
+    });
 })
 
 export default router;

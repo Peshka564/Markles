@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import { Row, Col, Container, Dropdown, Button } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
 import { Line } from 'react-chartjs-2';
+import {loadLayersModel, memory, tensor3d, dispose} from '@tensorflow/tfjs';
 
 const LineChart = ({chartData}) => {
     const {auth} = useContext(AuthContext);
@@ -9,6 +10,7 @@ const LineChart = ({chartData}) => {
     const [lineChoice, setLineChoice] = useState('Last day');
     const [lineSum, setLineSum] = useState(0);
     const [lineCount, setLineCount] = useState(0);
+    const [predictedData, setPredictedData] = useState([])
 
     useEffect(() => {
         if(chartData.length > 0 && auth.isAuthenticated) {
@@ -33,7 +35,6 @@ const LineChart = ({chartData}) => {
             // get sum and count
             let newArr = [], newMin = 0;
             if(min === 1) newMin = Date.parse(newList[newList.length - 1].createdAt)
-            console.log(newMin)
             for(let i = newList.length - 1; i >= 0; i--) {
                 if(min === 1) {
                     if(Date.parse(newList[i].createdAt) < newMin) newMin = Date.parse(newList[i].createdAt)
@@ -66,6 +67,37 @@ const LineChart = ({chartData}) => {
         }
     }, [chartData, lineChoice]);
 
+    const predictData = async () => {
+        const model = await loadLayersModel('https://markleswebapp.000webhostapp.com/model.json')
+        let arr = []
+        let d1 = new Date()
+        let d2 = new Date()
+        for(let i = 60; i >= 1; i--) {
+            d1.setDate(d1.getDate() - 1)
+            let s = 0;
+            for(let i = chartData.length - 1; i >= 0; i--) {
+                if(Date.parse(chartData[i].createdAt) > d1.getTime() && Date.parse(chartData[i].createdAt) <= d2.getTime()) {
+                    s += chartData[i].amount
+                }
+            }
+            d2.setDate(d2.getDate() - 1)
+            arr.push(s)
+        }
+        let input2d = arr.reverse().map((k) => [k])
+        let inputData = [input2d]
+        let answers = []
+        for(let i = 0; i < 30; i++) {
+            const predictions = model.predict(tensor3d(inputData))
+            const answer = predictions.dataSync()["0"]
+            answers.push(answer)
+            input2d.shift()
+            input2d = [...input2d, [answer]]
+            inputData = [input2d]
+        }
+        console.log(answers)
+        console.log(memory()) //MEMORY CLEANUP*/
+    }
+
     const data = {
         datasets: [
             {
@@ -73,6 +105,13 @@ const LineChart = ({chartData}) => {
                 borderColor: '#5cdbd7', 
                 borderWidth: 2, 
                 data: lineData
+            },
+            {
+                backgroundColor: '#5cdbd7',
+                borderColor: '#5cdbd7', 
+                borderWidth: 2,
+                borderDash: [10, 5],
+                data: predictedData
             }
         ]
         }
@@ -110,6 +149,7 @@ const LineChart = ({chartData}) => {
                     </Dropdown>
                     <Button className='my-3 py-3 text-white' disabled>{'Total: ' + lineSum + ' $'}</Button>
                     <Button className='mb-3 py-3 text-white'disabled>{'Number of deals: ' + lineCount}</Button>
+                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => predictData()}>Predict next month</Button>
                 </div>
             </Col>
             <Col md={8}>

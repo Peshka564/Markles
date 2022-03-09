@@ -1,6 +1,6 @@
 export const getDeals = async (transport, {dealDispatch, auth}) => {
     try {
-        const res = await transport.post('/api/deals/get', auth)
+        const res = await transport.post('http://localhost:5000/api/deals/get', auth)
         dealDispatch({
             type: 'DEALS_GET',
             payload: res.data
@@ -36,6 +36,14 @@ export const deleteDeal = async (transport, {id}) => {
         return error.response;
     }
 };
+
+export const predictDeals = async (transport, {data}) => {
+    try {
+        const res = await transport.post('/predict', data);
+    } catch (error) {
+        return error.response;
+    }
+}
 
 export const sortDeals = async (transport, {way, data, dealDispatch, auth}) => {
     try {
