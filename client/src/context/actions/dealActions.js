@@ -1,6 +1,6 @@
 export const getDeals = async (transport, {dealDispatch, auth}) => {
     try {
-        const res = await transport.post('http://localhost:5000/api/deals/get', auth)
+        const res = await transport.post('/api/deals/get', auth)
         dealDispatch({
             type: 'DEALS_GET',
             payload: res.data

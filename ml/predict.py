@@ -1,5 +1,6 @@
 import pandas as pd
 import sys, json
+import keras
 
 def prepare_data(arr):
     return sum(arr)
