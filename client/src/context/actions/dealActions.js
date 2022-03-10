@@ -37,9 +37,15 @@ export const deleteDeal = async (transport, {id}) => {
     }
 };
 
-export const predictDeals = async (transport, {data}) => {
+export const predictDeals = async (transport, {dealDispatch, predictions}) => {
     try {
-        const res = await transport.post('/predict', data);
+        console.log(predictions)//Control the amount
+        const res = await transport.post('http://127.0.0.1:8000/', predictions)
+        console.log(res)
+        dealDispatch({
+            type: 'DEALS_PREDICT',
+            payload: res.data
+        })
     } catch (error) {
         return error.response;
     }

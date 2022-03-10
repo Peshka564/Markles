@@ -2,9 +2,8 @@ import React, {useState, useEffect, useContext} from 'react';
 import { Row, Col, Container, Dropdown, Button } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
 import { Line } from 'react-chartjs-2';
-import {loadLayersModel, memory, tensor3d, dispose} from '@tensorflow/tfjs';
 
-const LineChart = ({chartData}) => {
+const LineChart = ({chartData, predictAction, predicted}) => {
     const {auth} = useContext(AuthContext);
     const [lineData, setLineData] = useState([]);
     const [lineChoice, setLineChoice] = useState('Last day');
@@ -67,36 +66,39 @@ const LineChart = ({chartData}) => {
         }
     }, [chartData, lineChoice]);
 
-    const predictData = async () => {
-        const model = await loadLayersModel('https://markleswebapp.000webhostapp.com/model.json')
-        let arr = []
-        let d1 = new Date()
-        let d2 = new Date()
-        for(let i = 60; i >= 1; i--) {
-            d1.setDate(d1.getDate() - 1)
-            let s = 0;
-            for(let i = chartData.length - 1; i >= 0; i--) {
-                if(Date.parse(chartData[i].createdAt) > d1.getTime() && Date.parse(chartData[i].createdAt) <= d2.getTime()) {
-                    s += chartData[i].amount
+    const predictData = () => {
+        if(chartData.length >= 60) {
+            let arr = []
+            let d1 = new Date()
+            let d2 = new Date()
+            for(let i = 60; i >= 1; i--) {
+                d1.setDate(d1.getDate() - 1)
+                let s = 0;
+                for(let i = chartData.length - 1; i >= 0; i--) {
+                    if(Date.parse(chartData[i].createdAt) > d1.getTime() && Date.parse(chartData[i].createdAt) <= d2.getTime()) {
+                        s += chartData[i].amount
+                    }
                 }
+                d2.setDate(d2.getDate() - 1)
+                arr.push(s)
             }
-            d2.setDate(d2.getDate() - 1)
-            arr.push(s)
+            predictAction({predictions: {'amount': arr.reverse()}})
         }
-        let input2d = arr.reverse().map((k) => [k])
-        let inputData = [input2d]
-        let answers = []
-        for(let i = 0; i < 30; i++) {
-            const predictions = model.predict(tensor3d(inputData))
-            const answer = predictions.dataSync()["0"]
-            answers.push(answer)
-            input2d.shift()
-            input2d = [...input2d, [answer]]
-            inputData = [input2d]
-        }
-        console.log(answers)
-        console.log(memory()) //MEMORY CLEANUP*/
     }
+
+    useEffect(() => {
+        if(predicted.length > 0) {
+            setLineData([])
+            let pred = []
+            let d = new Date()
+            for(let i = 0; i < predicted.length; i++) {
+                d.setMonth(d.getMonth() + 1)
+                pred.push({x: new Date(d.getTime()).toUTCString(), y: Math.floor(predicted[i])})
+            }
+            console.log(pred)
+            setPredictedData(pred)
+        }
+    }, [predicted])
 
     const data = {
         datasets: [
@@ -107,10 +109,9 @@ const LineChart = ({chartData}) => {
                 data: lineData
             },
             {
-                backgroundColor: '#5cdbd7',
-                borderColor: '#5cdbd7', 
+                backgroundColor: '#000',
+                borderColor: '#000', 
                 borderWidth: 2,
-                borderDash: [10, 5],
                 data: predictedData
             }
         ]
@@ -141,10 +142,22 @@ const LineChart = ({chartData}) => {
                     <Dropdown>
                     <Dropdown.Toggle className='bg-primary text-white'>{lineChoice}</Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => setLineChoice('Last day')}>Last day</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setLineChoice('Last week')}>Last week</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setLineChoice('Last month')}>Last month</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setLineChoice('All time')}>All time</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {
+                            setLineChoice('Last day') 
+                            setPredictedData([])
+                        }}>Last day</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {
+                            setLineChoice('Last week') 
+                            setPredictedData([])
+                        }}>Last week</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {
+                            setLineChoice('Last month') 
+                            setPredictedData([])
+                        }}>Last month</Dropdown.Item>
+                        <Dropdown.Item onClick={() => {
+                            setLineChoice('All time') 
+                            setPredictedData([])
+                        }}>All time</Dropdown.Item>
                     </Dropdown.Menu>
                     </Dropdown>
                     <Button className='my-3 py-3 text-white' disabled>{'Total: ' + lineSum + ' $'}</Button>

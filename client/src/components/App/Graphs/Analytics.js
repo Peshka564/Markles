@@ -2,7 +2,7 @@ import React, {useEffect, useContext} from 'react';
 import { Container } from 'react-bootstrap';
 import { TableContext } from '../../../context/TableContext';
 import { AuthContext } from '../../../context/AuthContext';
-import { getDeals } from '../../../context/actions/dealActions';
+import { getDeals, predictDeals } from '../../../context/actions/dealActions';
 import { getUsers } from '../../../context/actions/userActions';
 import { usePrivateRoute } from '../../../hooks/authMiddleware';
 import { Chart, registerables } from 'chart.js';
@@ -17,6 +17,7 @@ const Analytics = () => {
   const {auth, authDispatch} = useContext(AuthContext);
   const getDealsAction = usePrivateRoute(getDeals, auth, authDispatch, {dealDispatch, auth});
   const getUsersAction = usePrivateRoute(getUsers, auth, authDispatch, {userDispatch, auth});
+  const predictDealsAction = usePrivateRoute(predictDeals, auth, authDispatch, {dealDispatch})
 
   useEffect(() => {
     if(auth.isAuthenticated) {
@@ -27,7 +28,7 @@ const Analytics = () => {
   
   return (
     <Container>
-      <LineChart chartData={deals.deals} />
+      <LineChart chartData={deals.deals} predictAction={predictDealsAction} predicted={deals.predicted}/>
       <BarChart chartData={deals.deals} userData={users.users}/>
       <PieChart chartData={deals.deals} />
     </Container>

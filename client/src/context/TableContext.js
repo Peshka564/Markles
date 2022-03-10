@@ -5,7 +5,8 @@ export const TableContext = createContext();
 const initialState = {
     users: [],
     contacts: [],
-    deals: []
+    deals: [],
+    predicted: []
 };
 
 const userReducer = (state, action) => {
@@ -54,6 +55,8 @@ const dealReducer = (state, action) => {
         case 'DEALS_DELETE':
             return {...state, deals: state.deals.filter(deal => deal._id !== action.payload)}
 
+        case 'DEALS_PREDICT':
+            return {...state, predicted: [...action.payload]}
         default: 
             return state;
     }
