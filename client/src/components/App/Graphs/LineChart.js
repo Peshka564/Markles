@@ -92,7 +92,7 @@ const LineChart = ({chartData, predictAction, predicted}) => {
             let pred = []
             let d = new Date()
             for(let i = 0; i < predicted.length; i++) {
-                d.setMonth(d.getMonth() + 1)
+                d.setDate(d.getDate() + 1)
                 pred.push({x: new Date(d.getTime()).toUTCString(), y: Math.floor(predicted[i])})
             }
             setPredictedData(pred)
