@@ -48,7 +48,6 @@ export const importContacts = async (transport, {contacts, shuffled, auth}) => {
         }
         body.push(temp);
     })
-    console.log(body)
     try {
         await transport.post('/api/contacts/import', body)
     } catch (error) {

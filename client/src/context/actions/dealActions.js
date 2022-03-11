@@ -39,9 +39,7 @@ export const deleteDeal = async (transport, {id}) => {
 
 export const predictDeals = async (transport, {dealDispatch, predictions}) => {
     try {
-        console.log(predictions)//Control the amount
         const res = await transport.post('https://marklesai.herokuapp.com/', predictions)
-        console.log(res)
         dealDispatch({
             type: 'DEALS_PREDICT',
             payload: res.data

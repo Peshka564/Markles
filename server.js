@@ -9,7 +9,6 @@ import contacts from './api/contacts.js';
 import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
-import { sampleData } from './sampleData.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -68,5 +67,4 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server listening on port ${PORT} in ${process.env.NODE_ENV}`));
-sampleData();
 export default io;

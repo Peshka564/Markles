@@ -44,7 +44,6 @@ const ImportContacts = () => {
                     for(let i = 0; i < initialRecords.length; i++) {                     
                         const separated = initialRecords[i].split(',');
                         if(separated.length === 1 && separated[0] === '') continue;
-                        console.log(separated)
                         if(i == 0) length = separated.length;
                         else if(length !== separated.length) {
                             setErrorMsg('Some rows do not have the same number of columns');            
