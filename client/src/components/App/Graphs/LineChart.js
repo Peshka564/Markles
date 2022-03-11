@@ -69,6 +69,9 @@ const LineChart = ({chartData, predictAction, predicted}) => {
     const predictData = () => {
         if(chartData.length >= 60) {
             let arr = []
+            /*let xd = new Date()
+            xd.setMonth(xd.getMonth() - 1)
+            console.log(xd)*/
             let d1 = new Date()
             let d2 = new Date()
             for(let i = 60; i >= 1; i--) {
@@ -150,7 +153,7 @@ const LineChart = ({chartData, predictAction, predicted}) => {
                             setPredictedData([])
                         }}>Last week</Dropdown.Item>
                         <Dropdown.Item onClick={() => {
-                            setLineChoice('Last month') 
+                            setLineChoice('Last month')
                             setPredictedData([])
                         }}>Last month</Dropdown.Item>
                         <Dropdown.Item onClick={() => {
