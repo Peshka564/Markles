@@ -44,7 +44,7 @@ def build_model(x, y):
     model.compile(loss='mean_squared_error', optimizer='adam')
     model.fit(x, y, epochs=25, batch_size=32)
 
-    model.save('LSTM_model')
+    model.save('my_model')
     joblib.dump(scaler, "scaler.save")
     return model
 
