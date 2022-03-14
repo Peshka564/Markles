@@ -1,6 +1,6 @@
 export const getDeals = async (transport, {dealDispatch, auth}) => {
     try {
-        const res = await transport.post('/api/deals/get', auth)
+        const res = await transport.post('http://localhost:5000/api/deals/get', auth)
         dealDispatch({
             type: 'DEALS_GET',
             payload: res.data
@@ -39,7 +39,7 @@ export const deleteDeal = async (transport, {id}) => {
 
 export const predictDeals = async (transport, {dealDispatch, predictions}) => {
     try {
-        const res = await transport.post('https://marklesai.herokuapp.com/', predictions)
+        const res = await transport.post('http://127.0.0.1:5000/', predictions)
         dealDispatch({
             type: 'DEALS_PREDICT',
             payload: res.data

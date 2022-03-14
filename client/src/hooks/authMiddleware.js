@@ -10,7 +10,7 @@ export const usePrivateRoute = (action, auth, authDispatch, params) => {
             const transport = axios.create({
                 withCredentials: true        
             })
-            const res = await transport.get('/api/auth/token');
+            const res = await transport.get('http://localhost:5000/api/auth/token');
             return res.data.token;
         } catch (error) {
             if(error.response.status === 401) {
