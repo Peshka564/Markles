@@ -23,7 +23,7 @@ export const addDeal = async (transport, {deal, auth}) => {
     }
 
     try {
-        await transport.post('/api/deals/add', body)
+        await transport.post('http://localhost:5000/api/deals/add', body)
     } catch (error) {
         return error.response;
     }
@@ -31,7 +31,7 @@ export const addDeal = async (transport, {deal, auth}) => {
 
 export const deleteDeal = async (transport, {id}) => {
     try {
-        await transport.delete(`/api/deals/delete/${id}`);
+        await transport.delete(`http://localhost:5000/api/deals/delete/${id}`);
     } catch (error) {
         return error.response;
     }

@@ -1,6 +1,6 @@
 export const getContacts = async (transport, {contactDispatch, auth}) => {
     try {
-        const res = await transport.post('/api/contacts/get', auth)
+        const res = await transport.post('http://localhost:5000/api/contacts/get', auth)
         contactDispatch({
             type: 'CONTACTS_GET',
             payload: res.data
@@ -25,7 +25,7 @@ export const addContact = async (transport, {contact, auth}) => {
     }
 
     try {
-        await transport.post('/api/contacts/add', body)
+        await transport.post('http://localhost:5000/api/contacts/add', body)
     } catch (error) {
         return error.response;
     }
@@ -49,7 +49,7 @@ export const importContacts = async (transport, {contacts, shuffled, auth}) => {
         body.push(temp);
     })
     try {
-        await transport.post('/api/contacts/import', body)
+        await transport.post('http://localhost:5000/api/contacts/import', body)
     } catch (error) {
         return error.response;
     }
@@ -57,7 +57,7 @@ export const importContacts = async (transport, {contacts, shuffled, auth}) => {
 
 export const deleteContact = async (transport, {id}) => {
     try {
-        await transport.delete(`/api/contacts/delete/${id}`);
+        await transport.delete(`http://localhost:5000/api/contacts/delete/${id}`);
     } catch (error) {
         return error.response;
     }
