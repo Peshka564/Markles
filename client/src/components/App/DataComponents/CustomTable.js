@@ -14,7 +14,7 @@ import {
 import './TableStyle.css';
 import { useMediaQuery } from 'react-responsive';
 
-const CustomTable = ({data, getAction, sortAction, deleteAction, fields, dispatch}) => {
+const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
   const limit = 20;
   const maxPages = Math.ceil(data.length / limit);
   const {auth} = useContext(AuthContext);
@@ -34,7 +34,10 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields, dispatc
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
-              {element._id !== auth.user._id && auth.user.role === 'Admin' && element.role !== 'Admin' && <FaUserSlash className='delete-icon ms-auto' onClick={() => deleteAction({id: element._id})} />}
+              {element._id !== auth.user._id && auth.user.role === 'Admin' && element.role !== 'Admin' && <FaUserSlash className='delete-icon ms-auto' onClick={() => {      
+                if(element._id != null) deleteAction({id: element._id})
+              }
+                } />}
               </h3>
               </Card.Header>
               <Card.Body>
@@ -49,7 +52,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields, dispatc
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => {       
-                deleteAction({id: element._id})
+                if(element._id != null) deleteAction({id: element._id})
               }}/>}
               </h3>
               </Card.Header>
@@ -67,8 +70,8 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields, dispatc
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.item}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => {
-                  deleteAction({id: element._id})
-                }}/>}  
+                if(element._id != null) deleteAction({id: element._id})
+              }}/>}  
               </h3>
               </Card.Header>
               <Card.Body>

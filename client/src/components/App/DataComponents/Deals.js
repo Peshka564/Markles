@@ -22,7 +22,7 @@ const Deals = () => {
             <AddDeal />
           </div>
         }
-        <CustomTable data={deals.deals} getAction={getDealsAction} sortAction={sortDealsAction} deleteAction={deleteDealAction} fields={fieldArray} dispatch={dealDispatch}/>
+        <CustomTable data={deals.deals} getAction={getDealsAction} sortAction={sortDealsAction} deleteAction={deleteDealAction} fields={fieldArray}/>
       </>
   );
 };
