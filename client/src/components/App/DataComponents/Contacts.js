@@ -24,7 +24,7 @@ const Contacts = () => {
             <AddContact />
           </div>
         }
-        <CustomTable data={contacts.contacts} getAction={getContactsAction} sortAction={sortContactsAction} deleteAction={deleteContactAction} fields={fieldArray}/>
+        <CustomTable data={contacts.contacts} getAction={getContactsAction} sortAction={sortContactsAction} deleteAction={deleteContactAction} fields={fieldArray} dispatch={contactDispatch}/>
       </>
   );
 };

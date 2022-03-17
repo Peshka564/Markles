@@ -6,14 +6,14 @@ import mongoose from 'mongoose';
 let i = 0;
 export const sampleData = async () => {
     
-    const company = {
+    /*const company = {
         id: mongoose.Types.ObjectId('620d139bc4c763924731af58'),
         name: 'Test'
-    }
-    /*const company = {
+    }*/
+    const company = {
         id: mongoose.Types.ObjectId('621e2a005a940e7e1c00d5e1'),
         name: 'TestCompany'
-    }*/
+    }
     const users = await User.find({'company.id': company.id});
     const contacts = await Contact.find({'company.id': company.id});
     const items = 
@@ -34,11 +34,11 @@ export const sampleData = async () => {
     'Crayon',
     'Sock'
     ];
-/*
-    for(let i = 0; i < 500; i++) {
+
+    /*for(let i = 0; i < 100; i++) {
         const contactId = Math.floor(Math.random() * contacts.length);
         const userId = Math.floor(Math.random() * users.length);
-        const date = new Date(new Date(2021, 1, 1).getTime() + Math.random() * (new Date().getTime() - new Date(2021, 1, 1).getTime()));
+        const date = new Date(new Date(2022, 3, 10).getTime() + Math.random() * (new Date().getTime() - new Date(2022, 3, 10).getTime()));
         const deal = new Deal({
             item: items[Math.floor(Math.random() * items.length)],
             amount: Math.floor(Math.random() * 400),
@@ -54,7 +54,7 @@ export const sampleData = async () => {
     }
     console.log('done')*/
 
-    /*const interval = Math.floor(Math.random() * 60 * 1000);
+    /*const interval = Math.floor(Math.random() * 20 * 1000);
     const contactId = Math.floor(Math.random() * contacts.length);
     const userId = Math.floor(Math.random() * (users.length - 2) + 2);
     const deal = new Deal({

@@ -14,7 +14,7 @@ import {
 import './TableStyle.css';
 import { useMediaQuery } from 'react-responsive';
 
-const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
+const CustomTable = ({data, getAction, sortAction, deleteAction, fields, dispatch}) => {
   const limit = 20;
   const maxPages = Math.ceil(data.length / limit);
   const {auth} = useContext(AuthContext);
@@ -48,7 +48,13 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
-              {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => deleteAction({id: element._id})}/>}
+              {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => {
+                dispatch({
+                  type: 'CONTACTS_DELETE',
+                  payload: element.id
+                })
+                deleteAction({id: element._id})
+              }}/>}
               </h3>
               </Card.Header>
               <Card.Body>
@@ -64,7 +70,14 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
           if((i+1) > (page-1)*limit && (i+1) < (page)*limit+1) {
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.item}`}
-              {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => deleteAction({id: element._id})}/>}  
+              {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => 
+                {
+                  dispatch({
+                    type: 'DEALS_DELETE',
+                    payload: element.id
+                  })
+                  deleteAction({id: element._id})
+                }}/>}  
               </h3>
               </Card.Header>
               <Card.Body>

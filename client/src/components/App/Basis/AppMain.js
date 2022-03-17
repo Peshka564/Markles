@@ -11,7 +11,7 @@ const AppMain = () => {
   useEffect(() => {
     if(auth.isAuthenticated) {
       //connect socket
-      const socket = io();
+      const socket = io('http://localhost:5000');
       socket.emit('joinRoom', auth.user.company.id);
       //
       socket.on('newContact', (contact) => {
