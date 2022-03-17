@@ -1,8 +1,6 @@
 import express from 'express';
 import Deal from '../database/models/Deal.js';
 import { auth } from '../middleware/auth.js';
-import { spawn, execSync } from 'child_process';
-import { request } from 'http';
 
 const router = express.Router();
 
@@ -45,7 +43,8 @@ router.post('/add', auth, async (req, res) => {
 
 // Delete deal - private
 router.delete('/delete/:id', auth, async (req, res) => {
-    await Deal.findOneAndDelete({_id: req.params.id});
+    const check = await Deal.findOne({_id: req.params.id})
+    if(check != null) await Deal.findOneAndDelete({_id: req.params.id});
     res.sendStatus(200);
 })
 

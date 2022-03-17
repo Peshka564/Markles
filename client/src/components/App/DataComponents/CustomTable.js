@@ -35,7 +35,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
               {element._id !== auth.user._id && auth.user.role === 'Admin' && element.role !== 'Admin' && <FaUserSlash className='delete-icon ms-auto' onClick={() => {      
-                if(element._id != null) deleteAction({id: element._id})
+                deleteAction({id: element._id})
               }
                 } />}
               </h3>
@@ -52,7 +52,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.firstName + ' ' + element.lastName}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => {       
-                if(element._id != null) deleteAction({id: element._id})
+                deleteAction({id: element._id})
               }}/>}
               </h3>
               </Card.Header>
@@ -70,7 +70,7 @@ const CustomTable = ({data, getAction, sortAction, deleteAction, fields}) => {
             return <Card key={element._id}>
               <Card.Header><h3>{`${fields[0]}: ${element.item}`}
               {(element.owner.id === auth.user._id || auth.user.role === 'Admin') && <FaUserSlash className='delete-icon ms-auto' onClick={() => {
-                if(element._id != null) deleteAction({id: element._id})
+                deleteAction({id: element._id})
               }}/>}  
               </h3>
               </Card.Header>
