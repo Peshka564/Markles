@@ -9,7 +9,7 @@ export const loginUser = async ({email, password}, authDispatch) => {
                 'Content-type': 'application/json'
             }           
         })
-        const res = await transport.post('http://localhost:5000/api/auth/login', reqBody)
+        const res = await transport.post('/api/auth/login', reqBody)
         authDispatch({
             type: 'AUTH_SUCCESS',
             payload: res.data
@@ -32,7 +32,7 @@ export const registerUser = async ({firstName, lastName, email, password, role, 
     const reqBody = JSON.stringify({firstName, lastName, email, password, role, companyName});
 
     try {
-        const res = await axios.post('http://localhost:5000/api/auth/register', reqBody, config)
+        const res = await axios.post('/api/auth/register', reqBody, config)
         authDispatch({
             type: 'AUTH_SUCCESS',
             payload: res.data
@@ -50,7 +50,7 @@ export const logOutUser = async (authDispatch) => {
     const transport = axios.create({
         withCredentials: true
     });
-    await transport.get('http://localhost:5000/api/auth/logout');
+    await transport.get('/api/auth/logout');
 
     authDispatch({
         type: 'AUTH_FAIL'
@@ -59,7 +59,7 @@ export const logOutUser = async (authDispatch) => {
 
 export const checkUser = async (transport, {authDispatch}) => {
     try {
-        const res = await transport.get('http://localhost:5000/api/auth/user')
+        const res = await transport.get('/api/auth/user')
         authDispatch({
             type: 'AUTH_CHECK',
             payload: res.data

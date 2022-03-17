@@ -1,6 +1,6 @@
 export const getDeals = async (transport, {dealDispatch, auth}) => {
     try {
-        const res = await transport.post('http://localhost:5000/api/deals/get', auth)
+        const res = await transport.post('/api/deals/get', auth)
         dealDispatch({
             type: 'DEALS_GET',
             payload: res.data
@@ -23,7 +23,7 @@ export const addDeal = async (transport, {deal, auth}) => {
     }
 
     try {
-        await transport.post('http://localhost:5000/api/deals/add', body)
+        await transport.post('/api/deals/add', body)
     } catch (error) {
         return error.response;
     }
@@ -31,7 +31,7 @@ export const addDeal = async (transport, {deal, auth}) => {
 
 export const deleteDeal = async (transport, {id}) => {
     try {
-        await transport.delete(`http://localhost:5000/api/deals/delete/${id}`);
+        await transport.delete(`/api/deals/delete/${id}`);
     } catch (error) {
         return error.response;
     }
@@ -39,7 +39,7 @@ export const deleteDeal = async (transport, {id}) => {
 
 export const predictDeals = async (transport, {dealDispatch, predictions}) => {
     try {
-        const res = await transport.post('http://127.0.0.1:5000/', predictions)
+        const res = await transport.post('https://marklesai.herokuapp.com/', predictions)
         dealDispatch({
             type: 'DEALS_PREDICT',
             payload: res.data

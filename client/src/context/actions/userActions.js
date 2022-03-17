@@ -1,6 +1,6 @@
 export const getUsers = async (transport, {userDispatch, auth}) => {
     try {
-        const res = await transport.post('http://localhost:5000/api/users/get', auth)
+        const res = await transport.post('/api/users/get', auth)
         userDispatch({
             type: 'USERS_GET',
             payload: res.data
@@ -21,7 +21,7 @@ export const addUser = async (transport, {user, auth}) => {
     }
 
     try {
-        await transport.post('http://localhost:5000/api/users/add', body)
+        await transport.post('/api/users/add', body)
     } catch (error) {
         return error.response;
     }
@@ -29,7 +29,7 @@ export const addUser = async (transport, {user, auth}) => {
 
 export const deleteUser = async (transport, {id}) => {
     try {
-        await transport.delete(`http://localhost:5000/api/users/delete/${id}`);
+        await transport.delete(`/api/users/delete/${id}`);
     } catch (error) {
         return error.response;
     }
