@@ -48,7 +48,8 @@ router.post('/add', auth, async (req, res) => {
 
 // Delete contact - private
 router.delete('/delete/:id', auth, async (req, res) => {
-    await Contact.findOneAndDelete({_id: req.params.id});
+    const check = await Contact.findOne({_id: req.params.id})
+    if(check != null) await Contact.findOneAndDelete({_id: req.params.id});
     res.sendStatus(200);
 })
 

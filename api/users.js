@@ -61,7 +61,8 @@ router.post('/add', auth, async (req, res) => {
 
 // Delete user - private
 router.delete('/delete/:id', auth, async (req, res) => {
-    await User.findOneAndDelete({_id: req.params.id});
+    const check = await User.findOne({_id: req.params.id})
+    if(check != null) await User.findOneAndDelete({_id: req.params.id});
     res.sendStatus(200);
 })
 
