@@ -7,9 +7,11 @@ const LineChart = ({chartData, predictAction, predicted}) => {
     const {auth} = useContext(AuthContext);
     const [lineData, setLineData] = useState([]);
     const [lineChoice, setLineChoice] = useState('Last day');
+    const [individual, setIndividual] = useState([])
     const [lineSum, setLineSum] = useState(0);
     const [lineCount, setLineCount] = useState(0);
     const [predictedData, setPredictedData] = useState([])
+    const [initial, setInitial] = useState(true)
 
     useEffect(() => {
         if(chartData.length > 0 && auth.isAuthenticated) {
@@ -24,6 +26,9 @@ const LineChart = ({chartData, predictAction, predicted}) => {
             } else {
                 min = 1;
                 d = new Date(0)
+            }
+            if(auth.user.role !== 'Admin') {
+                setIndividual(chartData.filter((el) => el.owner.id === auth.user._id))
             }
 
             let newList = chartData.filter((el) => Date.parse(el.createdAt) >= d.getTime());
@@ -67,7 +72,13 @@ const LineChart = ({chartData, predictAction, predicted}) => {
     }, [chartData, lineChoice]);
 
     const predictData = () => {
-        if(chartData.length >= 60) {
+        let previous = []
+        if(auth.user.role === 'Admin') {
+            previous = chartData
+        } else {
+            previous = individual
+        }
+        if(previous.length >= 60) {
             let arr = []
             /*let xd = new Date()
             xd.setMonth(xd.getMonth() - 1)
@@ -79,9 +90,9 @@ const LineChart = ({chartData, predictAction, predicted}) => {
             for(let i = 60; i >= 1; i--) {
                 d1.setDate(d1.getDate() - 1)
                 let s = 0;
-                for(let i = chartData.length - 1; i >= 0; i--) {
-                    if(Date.parse(chartData[i].createdAt) > d1.getTime() && Date.parse(chartData[i].createdAt) <= d2.getTime()) {
-                        s += chartData[i].amount
+                for(let i = previous.length - 1; i >= 0; i--) {
+                    if(Date.parse(previous[i].createdAt) > d1.getTime() && Date.parse(previous[i].createdAt) <= d2.getTime()) {
+                        s += previous[i].amount
                     }
                 }
                 d2.setDate(d2.getDate() - 1)
@@ -100,8 +111,10 @@ const LineChart = ({chartData, predictAction, predicted}) => {
                 d.setDate(d.getDate() + 1)
                 pred.push({x: new Date(d.getTime()).toUTCString(), y: Math.floor(predicted[i])})
             }
-            setPredictedData(pred)
+            if(!initial) setPredictedData(pred)
+            else setInitial(false)
         }
+        setInitial(false)
     }, [predicted])
 
     const data = {
