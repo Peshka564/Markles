@@ -3,7 +3,7 @@ import { Row, Col, Container, Dropdown, Button } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
 import { Line } from 'react-chartjs-2';
 
-const LineChart = ({chartData, predictAction, predicted}) => {
+const LineChart = ({chartData, trainAction, predictAction, predicted}) => {
     const {auth} = useContext(AuthContext);
     const [lineData, setLineData] = useState([]);
     const [lineChoice, setLineChoice] = useState('Last day');
@@ -71,7 +71,7 @@ const LineChart = ({chartData, predictAction, predicted}) => {
         }
     }, [chartData, lineChoice]);
 
-    const predictData = () => {
+    const prepareData = (days, action) => {
         let previous = []
         if(auth.user.role === 'Admin') {
             previous = chartData
@@ -87,7 +87,7 @@ const LineChart = ({chartData, predictAction, predicted}) => {
             let d2 = new Date(xd.getTime())*/
             let d1 = new Date()
             let d2 = new Date()
-            for(let i = 60; i >= 1; i--) {
+            for(let i = days; i >= 1; i--) {
                 d1.setDate(d1.getDate() - 1)
                 let s = 0;
                 for(let i = previous.length - 1; i >= 0; i--) {
@@ -98,7 +98,7 @@ const LineChart = ({chartData, predictAction, predicted}) => {
                 d2.setDate(d2.getDate() - 1)
                 arr.push(s)
             }
-            predictAction({predictions: {'amount': arr.reverse()}})
+            action({data: {'amount': arr.reverse()}})
         }
     }
 
@@ -179,7 +179,8 @@ const LineChart = ({chartData, predictAction, predicted}) => {
                     </Dropdown>
                     <Button className='my-3 py-3 text-white' disabled>{'Total: ' + lineSum + ' $'}</Button>
                     <Button className='mb-3 py-3 text-white'disabled>{'Number of deals: ' + lineCount}</Button>
-                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => predictData()}>Predict next month</Button>
+                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(60, predictAction)}>Predict next month</Button>
+                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(360, trainAction)}>Train the AI</Button>
                 </div>
             </Col>
             <Col md={8}>
