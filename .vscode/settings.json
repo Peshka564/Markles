@@ -1,8 +1,0 @@
-{
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/ba46ca36-36f8-487d-8c33-76b99d74efa4/resourceGroups/Markles_group/providers/Microsoft.Web/sites/Markles",
-    "appService.deploySubpath": "."
-}
