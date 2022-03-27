@@ -17,7 +17,7 @@ const Analytics = () => {
   const {auth, authDispatch} = useContext(AuthContext);
   const getDealsAction = usePrivateRoute(getDeals, auth, authDispatch, {dealDispatch, auth});
   const getUsersAction = usePrivateRoute(getUsers, auth, authDispatch, {userDispatch, auth});
-  const trainDealsAction = usePrivateRoute(trainDeals, auth, authDispatch, {dealDispatch})
+  //const trainDealsAction = usePrivateRoute(trainDeals, auth, authDispatch, {dealDispatch})
   const predictDealsAction = usePrivateRoute(predictDeals, auth, authDispatch, {dealDispatch})
 
   useEffect(() => {
