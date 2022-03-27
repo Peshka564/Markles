@@ -71,7 +71,7 @@ const LineChart = ({chartData, trainAction, predictAction, predicted, predicting
         }
     }, [chartData, lineChoice]);
 
-    const prepareData = (days, action) => {
+    const predictData = () => {
         let previous = []
         if(auth.user.role === 'Admin') {
             previous = chartData
@@ -87,7 +87,7 @@ const LineChart = ({chartData, trainAction, predictAction, predicted, predicting
             let d2 = new Date(xd.getTime())*/
             let d1 = new Date()
             let d2 = new Date()
-            for(let i = days; i >= 1; i--) {
+            for(let i = 60; i >= 1; i--) {
                 d1.setDate(d1.getDate() - 1)
                 let s = 0;
                 for(let i = previous.length - 1; i >= 0; i--) {
@@ -98,7 +98,7 @@ const LineChart = ({chartData, trainAction, predictAction, predicted, predicting
                 d2.setDate(d2.getDate() - 1)
                 arr.push(s)
             }
-            action({data: {'amount': arr.reverse()}})
+            predictAction({data: {'amount': arr.reverse()}})
         }
     }
 
@@ -183,7 +183,7 @@ const LineChart = ({chartData, trainAction, predictAction, predicted, predicting
                     <Button className='my-3 py-3 text-white' disabled>{'Total: ' + lineSum + ' $'}</Button>
                     <Button className='mb-3 py-3 text-white'disabled>{'Number of deals: ' + lineCount}</Button>
                     {!predicting ?
-                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(60, predictAction)}>Predict next month</Button>
+                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => predictData()}>Predict next month</Button>
                     :
                     <Button className='bg-primary mb-3 py-3 text-white d-flex align-items-center justify-content-center' disabled>
                         <Spinner className='me-2' animation="border"/><h5 className='fs-6 d-inline mt-2'>Loading...</h5>
