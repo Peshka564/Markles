@@ -2,11 +2,18 @@ import React, { createContext, useReducer } from 'react';
 
 export const TableContext = createContext();
 
-const initialState = {
-    users: [],
-    contacts: [],
+const initialUserState = {
+    users: []
+};
+
+const initialContactState = {
+    contacts: []
+};
+
+const initialDealState = {
     deals: [],
-    predicted: []
+    predicted: [],
+    isPredicting: false
 };
 
 const userReducer = (state, action) => {
@@ -56,16 +63,20 @@ const dealReducer = (state, action) => {
             return {...state, deals: state.deals.filter(deal => deal._id !== action.payload)}
 
         case 'DEALS_PREDICT':
-            return {...state, predicted: [...action.payload]}
+            return {...state, isPredicting: true}
+
+        case 'DEALS_PREDICTION':
+            return {...state, predicted: [...action.payload], isPredicting: false}
+
         default: 
             return state;
     }
 }
 
 export const TableProvider = ({ children }) => {
-    const [userstate, userDispatch] = useReducer(userReducer, initialState);
-    const [contactstate, contactDispatch] = useReducer(contactReducer, initialState);
-    const [dealstate, dealDispatch] = useReducer(dealReducer, initialState);
+    const [userstate, userDispatch] = useReducer(userReducer, initialUserState);
+    const [contactstate, contactDispatch] = useReducer(contactReducer, initialContactState);
+    const [dealstate, dealDispatch] = useReducer(dealReducer, initialDealState);
 
     return (
     <TableContext.Provider value = {{

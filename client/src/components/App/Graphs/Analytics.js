@@ -29,7 +29,7 @@ const Analytics = () => {
   
   return (
     <Container>
-      <LineChart chartData={deals.deals} predictAction={predictDealsAction} predicted={deals.predicted} trainAction={trainDealsAction}/>
+      <LineChart chartData={deals.deals} predictAction={predictDealsAction} predicted={deals.predicted} trainAction={trainDealsAction} predicting={deals.isPredicting}/>
       <BarChart chartData={deals.deals} userData={users.users}/>
       <PieChart chartData={deals.deals} />
     </Container>

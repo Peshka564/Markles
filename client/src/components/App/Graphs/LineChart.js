@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { Row, Col, Container, Dropdown, Button } from 'react-bootstrap';
+import { Row, Col, Container, Dropdown, Button, Spinner } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
 import { Line } from 'react-chartjs-2';
 
-const LineChart = ({chartData, trainAction, predictAction, predicted}) => {
+const LineChart = ({chartData, trainAction, predictAction, predicted, predicting}) => {
     const {auth} = useContext(AuthContext);
     const [lineData, setLineData] = useState([]);
     const [lineChoice, setLineChoice] = useState('Last day');
@@ -14,7 +14,7 @@ const LineChart = ({chartData, trainAction, predictAction, predicted}) => {
     const [initial, setInitial] = useState(true)
 
     useEffect(() => {
-        if(chartData.length > 0 && auth.isAuthenticated) {
+        if(chartData.length > 0 && auth.isAuthenticated && lineChoice !== 'Prediction') {
             let d = new Date();
             let s = 0, c = 0, min = 0;
             if(lineChoice === 'Last day') {
@@ -111,7 +111,10 @@ const LineChart = ({chartData, trainAction, predictAction, predicted}) => {
                 d.setDate(d.getDate() + 1)
                 pred.push({x: new Date(d.getTime()).toUTCString(), y: Math.floor(predicted[i])})
             }
-            if(!initial) setPredictedData(pred)
+            if(!initial) {
+                setPredictedData(pred)
+                setLineChoice('Prediction');
+            }
             else setInitial(false)
         }
         setInitial(false)
@@ -179,8 +182,14 @@ const LineChart = ({chartData, trainAction, predictAction, predicted}) => {
                     </Dropdown>
                     <Button className='my-3 py-3 text-white' disabled>{'Total: ' + lineSum + ' $'}</Button>
                     <Button className='mb-3 py-3 text-white'disabled>{'Number of deals: ' + lineCount}</Button>
+                    {!predicting ?
                     <Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(60, predictAction)}>Predict next month</Button>
-                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(360, trainAction)}>Train the AI</Button>
+                    :
+                    <Button className='bg-primary mb-3 py-3 text-white d-flex align-items-center justify-content-center' disabled>
+                        <Spinner className='me-2' animation="border"/><h5 className='fs-6 d-inline mt-2'>Loading...</h5>
+                    </Button>
+                    }
+                    {/*<Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(360, trainAction)}>Train the AI</Button>*/}
                 </div>
             </Col>
             <Col md={8}>

@@ -37,19 +37,23 @@ export const deleteDeal = async (transport, {id}) => {
     }
 };
 
-export const trainDeals = async (transport, {dealDispatch, data}) => {
+/*export const trainDeals = async (transport, {dealDispatch, data}) => {
     try {
         await transport.post('http://127.0.0.1:5000/train', data)
     } catch (error) {
         return error.response;
     }
-}
+}*/
 
 export const predictDeals = async (transport, {dealDispatch, data}) => {
     try {
-        const res = await transport.post('http://127.0.0.1:5000/predict', data)
         dealDispatch({
-            type: 'DEALS_PREDICT',
+            type: 'DEALS_PREDICT'
+        })
+        //const res = await transport.post('http://127.0.0.1:5000/predict', data)
+        const res = await transport.post('https://marklesai.herokuapp.com/', data)
+        dealDispatch({
+            type: 'DEALS_PREDICTION',
             payload: res.data
         })
     } catch (error) {
