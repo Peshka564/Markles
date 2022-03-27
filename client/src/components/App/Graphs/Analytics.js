@@ -19,7 +19,7 @@ const Analytics = () => {
   const getUsersAction = usePrivateRoute(getUsers, auth, authDispatch, {userDispatch, auth});
   //const trainDealsAction = usePrivateRoute(trainDeals, auth, authDispatch, {dealDispatch})
   const predictDealsAction = usePrivateRoute(predictDeals, auth, authDispatch, {dealDispatch})
-asd
+
   useEffect(() => {
     if(auth.isAuthenticated) {
       getDealsAction();
