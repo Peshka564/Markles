@@ -1,0 +1,9 @@
+tensorflow-cpu
+flask
+pandas
+numpy
+joblib
+flask_cors
+sklearn
+gunicorn
+waitress

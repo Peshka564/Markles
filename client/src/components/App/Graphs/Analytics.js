@@ -2,7 +2,7 @@ import React, {useEffect, useContext} from 'react';
 import { Container } from 'react-bootstrap';
 import { TableContext } from '../../../context/TableContext';
 import { AuthContext } from '../../../context/AuthContext';
-import { getDeals, predictDeals} from '../../../context/actions/dealActions';
+import { getDeals, predictDeals, trainDeals} from '../../../context/actions/dealActions';
 import { getUsers } from '../../../context/actions/userActions';
 import { usePrivateRoute } from '../../../hooks/authMiddleware';
 import { Chart, registerables } from 'chart.js';
@@ -17,7 +17,7 @@ const Analytics = () => {
   const {auth, authDispatch} = useContext(AuthContext);
   const getDealsAction = usePrivateRoute(getDeals, auth, authDispatch, {dealDispatch, auth});
   const getUsersAction = usePrivateRoute(getUsers, auth, authDispatch, {userDispatch, auth});
-  //const trainDealsAction = usePrivateRoute(trainDeals, auth, authDispatch, {dealDispatch})
+  const trainDealsAction = usePrivateRoute(trainDeals, auth, authDispatch, {dealDispatch})
   const predictDealsAction = usePrivateRoute(predictDeals, auth, authDispatch, {dealDispatch})
 
   useEffect(() => {
@@ -29,7 +29,12 @@ const Analytics = () => {
   
   return (
     <Container>
-      <LineChart chartData={deals.deals} predictAction={predictDealsAction} predicted={deals.predicted} /*trainAction={trainDealsAction}*/ predicting={deals.isPredicting}/>
+      <LineChart chartData={deals.deals} predictAction={predictDealsAction} trainAction={trainDealsAction} ai={{
+          predicting: deals.isPredicting,
+          predicted: deals.predicted,
+          training: deals.isTraining,
+          trained: deals.hasTrained
+      }}/>
       <BarChart chartData={deals.deals} userData={users.users}/>
       <PieChart chartData={deals.deals} />
     </Container>

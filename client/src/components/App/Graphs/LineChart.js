@@ -3,7 +3,7 @@ import { Row, Col, Container, Dropdown, Button, Spinner } from 'react-bootstrap'
 import { AuthContext } from '../../../context/AuthContext';
 import { Line } from 'react-chartjs-2';
 
-const LineChart = ({chartData, trainAction, predictAction, predicted, predicting}) => {
+const LineChart = ({chartData, trainAction, predictAction, ai}) => {
     const {auth} = useContext(AuthContext);
     const [lineData, setLineData] = useState([]);
     const [lineChoice, setLineChoice] = useState('Last day');
@@ -70,55 +70,57 @@ const LineChart = ({chartData, trainAction, predictAction, predicted, predicting
             setLineCount(c);
         }
     }, [chartData, lineChoice]);
+    
+    useEffect(() => {
+        if(ai.predicted.length > 0) {
+            setLineData([])
+            let pred = []
+            let xd = new Date()
+            xd.setMonth(xd.getMonth() - 1)
+            let d = new Date(xd.getTime())
+            for(let i = 0; i < ai.predicted.length; i++) {
+                d.setDate(d.getDate() + 1)
+                pred.push({x: new Date(d.getTime()).toUTCString(), y: Math.floor(ai.predicted[i])})
+            }
+            if(!initial) {
+                setPredictedData(pred)
+                setLineChoice('Prediction');
+            }
+        }
+        setInitial(false)
+    }, [ai.predicted])
 
-    const predictData = () => {
+    const prepareData = (prediction, days) => {
         let previous = []
         if(auth.user.role === 'Admin') {
             previous = chartData
         } else {
             previous = individual
         }
-        if(previous.length >= 60) {
+        if(previous.length >= days) {
             let arr = []
-            /*let xd = new Date()
+            let xd = new Date()
             xd.setMonth(xd.getMonth() - 1)
-            console.log(xd)
             let d1 = new Date(xd.getTime())
-            let d2 = new Date(xd.getTime())*/
-            let d1 = new Date()
-            let d2 = new Date()
-            for(let i = 60; i >= 1; i--) {
+            let d2 = new Date(xd.getTime())
+            /*let d1 = new Date()
+            let d2 = new Date()*/
+            for(let i = 60; i <= days; i++) {
                 d1.setDate(d1.getDate() - 1)
                 let s = 0;
-                for(let i = previous.length - 1; i >= 0; i--) {
-                    if(Date.parse(previous[i].createdAt) > d1.getTime() && Date.parse(previous[i].createdAt) <= d2.getTime()) {
-                        s += previous[i].amount
+                for(let j = previous.length - 1; j >= 0; j--) {
+                    if(Date.parse(previous[j].createdAt) > d1.getTime() && Date.parse(previous[j].createdAt) <= d2.getTime()) {
+                        s += previous[j].amount
                     }
                 }
                 d2.setDate(d2.getDate() - 1)
                 arr.push(s)
             }
-            predictAction({data: {'amount': arr.reverse()}})
+            if(prediction) predictAction({data: {'amount': arr.reverse()}})
+            else trainAction({data: {'amount': arr.reverse()}})
         }
     }
 
-    useEffect(() => {
-        if(predicted.length > 0) {
-            setLineData([])
-            let pred = []
-            let d = new Date()
-            for(let i = 0; i < predicted.length; i++) {
-                d.setDate(d.getDate() + 1)
-                pred.push({x: new Date(d.getTime()).toUTCString(), y: Math.floor(predicted[i])})
-            }
-            if(!initial) {
-                setPredictedData(pred)
-                setLineChoice('Prediction');
-            }
-            else setInitial(false)
-        }
-        setInitial(false)
-    }, [predicted])
 
     const data = {
         datasets: [
@@ -182,14 +184,23 @@ const LineChart = ({chartData, trainAction, predictAction, predicted, predicting
                     </Dropdown>
                     <Button className='my-3 py-3 text-white' disabled>{'Total: ' + lineSum + ' $'}</Button>
                     <Button className='mb-3 py-3 text-white'disabled>{'Number of deals: ' + lineCount}</Button>
-                    {!predicting ?
-                    <Button className='bg-primary mb-3 py-3 text-white' onClick={() => predictData()}>Predict next month</Button>
-                    :
-                    <Button className='bg-primary mb-3 py-3 text-white d-flex align-items-center justify-content-center' disabled>
-                        <Spinner className='me-2' animation="border"/><h5 className='fs-6 d-inline mt-2'>Loading...</h5>
-                    </Button>
+                    {!ai.predicting ?
+                        <Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(true, 60)}>Predict next month</Button>
+                        :
+                        <Button className='bg-primary mb-3 py-3 text-white d-flex align-items-center justify-content-center' disabled>
+                            <Spinner className='me-2' animation="border"/><h5 className='fs-6 d-inline mt-2'>Loading...</h5>
+                        </Button>
                     }
-                    {/*<Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(360, trainAction)}>Train the AI</Button>*/}
+                    {!ai.training ?
+                        (!ai.trained ?
+                        <Button className='bg-primary mb-3 py-3 text-white' onClick={() => prepareData(false, 360)}>Train the AI</Button>
+                        :
+                        <Button className='bg-primary mb-3 py-3 text-white' disabled>Model is trained</Button>)
+                        :
+                        <Button className='bg-primary mb-3 py-3 text-white d-flex align-items-center justify-content-center' disabled>
+                            <Spinner className='me-2' animation="border"/><h5 className='fs-6 d-inline mt-2'>Loading...</h5>
+                        </Button>
+                    }
                 </div>
             </Col>
             <Col md={8}>

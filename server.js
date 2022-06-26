@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 import path from 'path';
+//import { sampleData } from './sampleData.js';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -67,4 +68,5 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server listening on port ${PORT} in ${process.env.NODE_ENV}`));
+//sampleData();
 export default io;

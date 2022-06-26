@@ -13,7 +13,9 @@ const initialContactState = {
 const initialDealState = {
     deals: [],
     predicted: [],
-    isPredicting: false
+    isPredicting: false,
+    isTraining: false,
+    hasTrained: false
 };
 
 const userReducer = (state, action) => {
@@ -64,9 +66,15 @@ const dealReducer = (state, action) => {
 
         case 'DEALS_PREDICT':
             return {...state, isPredicting: true}
-
+            
         case 'DEALS_PREDICTION':
             return {...state, predicted: [...action.payload], isPredicting: false}
+
+        case 'DEALS_TRAIN':
+            return {...state, isTraining: true}
+
+        case 'DEALS_TRAINED':
+            return {...state, isTraining: false, hasTrained: true}
 
         default: 
             return state;
