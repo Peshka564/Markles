@@ -116,9 +116,7 @@ const LineChart = ({chartData, trainAction, predictAction, ai}) => {
                 }
                 d2.setDate(d2.getDate() - 1)
                 arr.push(s)
-                console.log(arr)
             }
-            console.log({data: {'amount': arr.reverse()}});
             if(prediction) predictAction({data: {'amount': arr.reverse()}})
             else trainAction({data: {'amount': arr.reverse()}})
         }
