@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-import keras
 import joblib
+import os
 
 from flask import Flask, request, jsonify
 
@@ -15,7 +15,7 @@ CORS(app, support_credentials=True)
 
 # load the same scaler and model from training
 scaler = joblib.load('scaler.save')
-model = keras.models.load_model('test_model')
+model = tf.keras.models.load_model('test_model')
 
 def preprocess_data(data):
     df = pd.DataFrame.from_dict(data)
@@ -49,4 +49,4 @@ def predict():
 
 if __name__ == "__main__":
   from waitress import serve
-  serve(app, host="0.0.0.0", port=8080)
+  serve(app, host="0.0.0.0", port=os.environ['PORT'])

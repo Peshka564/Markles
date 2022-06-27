@@ -60,7 +60,8 @@ export const predictDeals = async (transport, {dealDispatch, data}) => {
         dealDispatch({
             type: 'DEALS_PREDICT'
         })
-        const res = await transport.post('http://127.0.0.1:5000/predict', data)
+        //const res = await transport.post('http://127.0.0.1:5000/predict', data)
+        const res = await transport.post('https://markles-ai.herokuapp.com/', data)
         //const res = await transport.post('https://marklesai.herokuapp.com/', data)
         dealDispatch({
             type: 'DEALS_PREDICTION',
