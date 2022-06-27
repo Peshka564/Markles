@@ -7,12 +7,12 @@ on:
 jobs:
   push_to_heroku:
     runs-on: ubuntu-latest
-     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "markles"
-          heroku_email: "matpet0412@gmail.com"
-          branch: "main"
-          procfile: "web: npm start"
+    steps:
+    - uses: actions/checkout@v2
+    - uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "markles"
+        heroku_email: "matpet0412@gmail.com"
+        branch: "main"
+        procfile: "web: npm start"
