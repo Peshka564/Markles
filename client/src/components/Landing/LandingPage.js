@@ -31,7 +31,7 @@ const LandingPage = () => {
                     {isLarge && <Image src={Hero} className='hero-img'/>}
                     <div className='d-flex flex-column' style={{textAlign: isLarge ? 'left' : 'center'}}>
                         <h2 className='text-white fw-bold mb-3'>The ultimate business tool</h2>
-                        <h4 className={`text-white fw-light ${isLarge ? 'mb-5' : 'mb-3'}`}>Manage, analyze and decide what is best for your Github Action</h4>
+                        <h4 className={`text-white fw-light ${isLarge ? 'mb-5' : 'mb-3'}`}>Manage, analyze and decide what is best for your company</h4>
                         <Button variant='complement' className={`hero-login p-3 mb-3 text-white fs-5 fw-bold ${!isLarge && 'mx-auto'}`} onClick={() => nav('/signup')}>Start for free</Button>
                     </div>
                 </div>
