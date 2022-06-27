@@ -105,7 +105,7 @@ const LineChart = ({chartData, trainAction, predictAction, ai}) => {
             let d2 = new Date(xd.getTime())*/
             let d1 = new Date()
             let d2 = new Date()
-            for(let i = 60; i <= days; i++) {
+            for(let i = 1; i <= days; i++) {
                 d1.setDate(d1.getDate() - 1)
                 let s = 0;
                 for(let j = previous.length - 1; j >= 0; j--) {
