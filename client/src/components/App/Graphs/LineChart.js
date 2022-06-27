@@ -99,12 +99,12 @@ const LineChart = ({chartData, trainAction, predictAction, ai}) => {
         }
         if(previous.length >= days) {
             let arr = []
-            let xd = new Date()
+            /*let xd = new Date()
             xd.setMonth(xd.getMonth() - 1)
             let d1 = new Date(xd.getTime())
-            let d2 = new Date(xd.getTime())
-            /*let d1 = new Date()
-            let d2 = new Date()*/
+            let d2 = new Date(xd.getTime())*/
+            let d1 = new Date()
+            let d2 = new Date()
             for(let i = 60; i <= days; i++) {
                 d1.setDate(d1.getDate() - 1)
                 let s = 0;
@@ -116,6 +116,7 @@ const LineChart = ({chartData, trainAction, predictAction, ai}) => {
                 d2.setDate(d2.getDate() - 1)
                 arr.push(s)
             }
+            console.log(data);
             if(prediction) predictAction({data: {'amount': arr.reverse()}})
             else trainAction({data: {'amount': arr.reverse()}})
         }
