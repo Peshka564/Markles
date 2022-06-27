@@ -109,12 +109,14 @@ const LineChart = ({chartData, trainAction, predictAction, ai}) => {
                 d1.setDate(d1.getDate() - 1)
                 let s = 0;
                 for(let j = previous.length - 1; j >= 0; j--) {
+                    if(Date.parse(previous[j].createdAt) < d1.getTime()) break;
                     if(Date.parse(previous[j].createdAt) > d1.getTime() && Date.parse(previous[j].createdAt) <= d2.getTime()) {
                         s += previous[j].amount
                     }
                 }
                 d2.setDate(d2.getDate() - 1)
                 arr.push(s)
+                print(arr)
             }
             console.log({data: {'amount': arr.reverse()}});
             if(prediction) predictAction({data: {'amount': arr.reverse()}})
